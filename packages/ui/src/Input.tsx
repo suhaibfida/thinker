@@ -9,7 +9,7 @@ const Input = (props: prop) => {
       name="input"
       onChange={props.onChange}
       spellCheck={false}
-      placeholder="Enter your todo....."
+      placeholder="Enter your task....."
     />
   );
 };
