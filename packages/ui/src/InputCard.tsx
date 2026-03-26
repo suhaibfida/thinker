@@ -17,7 +17,7 @@ export const InputCard = (props: prop) => {
     props.setItem(value);
   }
 
-  function onClick(e: React.MouseEvent<HTMLInputElement>) {
+  function onClick() {
     props.setTodo((prev: []) => [...prev, { id: uuidv4(), text: props.item }]);
     props.setItem("");
   }
