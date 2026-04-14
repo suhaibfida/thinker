@@ -1,4 +1,4 @@
 A digital brain dump where your ideas, chores, and random midnight thoughts finally find a home instead of floating away.
-<img width="1547" height="737" alt="image" src="https://github.com/user-attachments/assets/d1b02db2-feac-407a-be85-08fa09c9eb57" />
-<img width="1794" height="623" alt="image" src="https://github.com/user-attachments/assets/570e816b-74cd-412f-a92b-bf9d1ffaa2d3" />
+<img width="9060" height="4406" alt="ne" src="https://github.com/user-attachments/assets/a2b976c9-f5c6-4563-b247-1fadf6806e1b" />
+<img width="5861" height="1773" alt="rag" src="https://github.com/user-attachments/assets/147c921d-b885-4a19-8ba8-0790d13c9ad6" />
 ![alt text](image.png)
