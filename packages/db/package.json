@@ -1,11 +1,19 @@
 {
-  "name": "db",
+  "name": "@repo/db",
   "private": true,
+  "type": "module",
+  "exports": {
+    "./prisma": "./lib/prisma.ts"
+  },
   "devDependencies": {
     "@types/bun": "latest",
     "@repo/typescript-config": "*"
   },
   "peerDependencies": {
     "typescript": "^5"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.7.0",
+    "@prisma/client": "^7.7.0"
   }
 }
