@@ -3,7 +3,7 @@ import prisma from "@repo/db/prisma";
 import { userSchema } from "@repo/zod/userSchema";
 import bcrypt from "bcrypt";
 
-export const func = async (req: Request, res: Response) => {
+export const signup = async (req: Request, res: Response) => {
   const safeParse = userSchema.safeParse(req.body);
   if (!safeParse.success) {
     return res.json({

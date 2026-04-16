@@ -2,7 +2,8 @@
   "name": "@repo/zod",
   "private": true,
   "exports": {
-    "./userSchema": "./lib/zod.ts"
+    "./userSchema": "./lib/zod.ts",
+    "./loginSchema": "./lib/zod.ts"
   },
   "devDependencies": {
     "@types/bun": "latest"
