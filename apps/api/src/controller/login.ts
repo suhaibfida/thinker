@@ -3,9 +3,15 @@ import prisma from "@repo/db/prisma";
 import "dotenv/config";
 import { loginSchema } from "@repo/zod/loginSchema";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 const login = async (req: Request, res: Response) => {
-  const jwtSecret = process.env.JWT_SECRET;
   const safeParse = loginSchema.safeParse(req.body);
+  const jwt_Secret = process.env.JWT_SECRET;
+  if (!jwt_Secret) {
+    return res.status(400).json({
+      message: "Something is wrong",
+    });
+  }
   if (!safeParse.success) {
     return res.status(400).json({
       message: safeParse.error.issues,
@@ -37,17 +43,18 @@ const login = async (req: Request, res: Response) => {
       message: "Password is incorrect",
     });
   }
-
-  res.cookie("token", find.id, {
+  const jwt_token = jwt.sign({ id: find.id }, jwt_Secret);
+  res.cookie("token", jwt_token, {
     httpOnly: true,
     secure: process.env.LIVE === "production" ? true : false,
     sameSite: "lax",
     maxAge: 28 * 24 * 60 * 60 * 1000,
   });
 
-  return res.status(400).json({
+  return res.status(200).json({
     message: "User logged in successfully",
     username: find.username,
+    token: jwt_token,
   });
 };
 export default login;
