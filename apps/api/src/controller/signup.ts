@@ -2,9 +2,16 @@ import { Request, Response } from "express";
 import prisma from "@repo/db/prisma";
 import { userSchema } from "@repo/zod/userSchema";
 import bcrypt from "bcrypt";
-
+import jwt from "jsonwebtoken";
+import "dotenv/config";
 export const signup = async (req: Request, res: Response) => {
   const safeParse = userSchema.safeParse(req.body);
+  const jwtSecret = process.env.JWT_SECRET;
+  if (!jwtSecret) {
+    return res.status(500).json({
+      message: "Something is wrong",
+    });
+  }
   if (!safeParse.success) {
     return res.json({
       message: safeParse.error.issues,
@@ -27,7 +34,7 @@ export const signup = async (req: Request, res: Response) => {
       message: "Username and email already exist",
     });
   } else if (user?.username === safeParse.data.username) {
-    res.json({
+    return res.json({
       message: "username already taken",
     });
   } else if (user?.email === safeParse.data.email) {
@@ -37,17 +44,30 @@ export const signup = async (req: Request, res: Response) => {
   }
   try {
     const hashedPassword = await bcrypt.hash(safeParse.data.password, 10);
-    const create = await prisma.user.create({
+    const user = await prisma.user.create({
       data: {
         username: safeParse.data.username,
         email: safeParse.data.email,
         password: hashedPassword,
       },
     });
+
+    const jwtToken = await jwt.sign({ id: user.id }, jwtSecret);
+    if (!jwtToken) {
+      return res.status(400).json({
+        message: "Session timed out.",
+      });
+    }
+    res.cookie("token", jwtToken, {
+      httpOnly: true,
+      secure: process.env.LIVE === "production" ? true : false,
+      sameSite: "lax",
+      maxAge: 28 * 24 * 60 * 60 * 1000,
+    });
     return res.json({
       message: "Account created succesfully",
-      user: create.username,
-      emai: create.email,
+      user: user.username,
+      emai: user.email,
     });
   } catch (error: any) {
     if (error.code === "P2002") {
@@ -56,4 +76,5 @@ export const signup = async (req: Request, res: Response) => {
       });
     }
   }
+  return;
 };
