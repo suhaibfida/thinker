@@ -8,7 +8,7 @@ const login = async (req: Request, res: Response) => {
   const safeParse = loginSchema.safeParse(req.body);
   const jwt_Secret = process.env.JWT_SECRET;
   if (!jwt_Secret) {
-    return res.status(400).json({
+    return res.status(500).json({
       message: "Something is wrong",
     });
   }
@@ -33,7 +33,7 @@ const login = async (req: Request, res: Response) => {
     },
   });
   if (!find) {
-    return res.status(400).json({
+    return res.status(401).json({
       message: "User doesn't exist",
     });
   }
@@ -51,7 +51,7 @@ const login = async (req: Request, res: Response) => {
     maxAge: 28 * 24 * 60 * 60 * 1000,
   });
 
-  return res.status(200).json({
+  return res.status(201).json({
     message: "User logged in successfully",
     username: find.username,
     token: jwt_token,
