@@ -16,6 +16,7 @@
     "typescript": "^5"
   },
   "dependencies": {
+    "@google/genai": "^1.50.1",
     "@langchain/core": "^1.1.40",
     "@langchain/textsplitters": "^1.0.1",
     "@repo/db": "*",
