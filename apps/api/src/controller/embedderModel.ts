@@ -11,7 +11,7 @@ export const embedder = async (chunk: string[]) => {
     console.log("error");
     return;
   }
-  const expo = response.embeddings[0];
+  const expo = response.embeddings;
   return expo;
 };
 export default embedder;

@@ -7,9 +7,10 @@ import "dotenv/config";
 export const signup = async (req: Request, res: Response) => {
   const safeParse = userSchema.safeParse(req.body);
   const jwtSecret = process.env.JWT_SECRET;
+  console.log(jwtSecret)
   if (!jwtSecret) {
     return res.status(500).json({
-      message: "Something is wrong",
+      message: "Something is wrongg",
     });
   }
   if (!safeParse.success) {
