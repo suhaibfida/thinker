@@ -15,7 +15,7 @@ export const saveDocument = async (req: Request, res: Response) => {
     });
   }
   const { title, content }: doc = req.body;
-  console.log(title + " " + content);
+
   if (!title || !content) {
     return res.status(400).json({
       message: "Missing title or document",
@@ -40,18 +40,33 @@ export const saveDocument = async (req: Request, res: Response) => {
       message:"Falied to convert data"
     })
   }
-  console.log(chunk);
-  console.log(embed)
+  
 const vector=embed.map(item=>({
   values:[...(item.values??[])]
 }))
-const push = await prisma.vectors.create({
+const user=await prisma.user.findUnique({
+
+  where:{
+    id:req.userId
+  }
+})
+const oldVectors = Array.isArray(user?.vectors)
+  ? (user.vectors as Prisma.JsonArray)
+  : [];
+const find = await prisma.user.update({
+  where: {
+    id: req.userId
+  },
   data: {
-    chunks: chunk,
-    vector: vector,
-    userId:req.userId
+    vectors: [...oldVectors,vector]as Prisma.JsonArray,
+    chunks: {
+      push: chunk
+    }
   }
 });
+const vectors = find.vectors as unknown as number[][];
+  console.log(vectors[0]); // ✅ TypeScript knows it exists
+
 
   return res.status(201).json({
     message: "File created successfully",

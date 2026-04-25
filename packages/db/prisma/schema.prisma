@@ -19,7 +19,8 @@ model User{
   email      String     @unique
   password   String
   documents  document[]
-  vectors    Vectors[]
+  vectors    Json    @default("[]")
+  chunks     String[] @default([])
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
 
@@ -33,14 +34,5 @@ content  String
 userId   String
 user     User @relation(fields:[userId],references:[id])
 
-
-}
-model Vectors{
-
-  id String @id @default(uuid())
-  chunks  String
-  vector  String
-  userId  String
-  user    User @relation(fields:[userId],references:[id])
 
 }

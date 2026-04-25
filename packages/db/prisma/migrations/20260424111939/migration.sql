@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "User" ALTER COLUMN "chunks" SET DEFAULT ARRAY[]::TEXT[],
+ALTER COLUMN "vectors" SET DEFAULT '[]';
